@@ -1,37 +1,38 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from datetime import datetime
+from datetime import date
 
 app = FastAPI()
 
 class Payment(BaseModel):
     id: int
-    type: str
-    person_name: str
-    adress: str
+    from_account_id: int
+    to_account_id: int
+    amount_in_euros: int
+    payment_date: date
 
-# type hint for a list of bank accounts
-bank_accounts: list[BankAccount] = []
+# type hint for a list of payments
+payments: list[Payment] = []
 
-@app.post("/bank_accounts/")
-def create_bank_account(account: BankAccount):
-    bank_accounts.append(account)
-    return {"message": "Bank account created successfully"}
+@app.post("/payments/")
+def create_payment(payment: Payment):
+    payments.append(payment)
+    return {"message": "Payment created successfully"}
 
-@app.get("/bank_accounts/")
-def get_bank_accounts():
-    return bank_accounts
+@app.get("/payments/")
+def get_payments():
+    return payments
 
-@app.get("/bank_accounts/{account_id}")
-def get_bank_account(account_id: int):
-    for account in bank_accounts:
-        if account.id == account_id:
-            return account
-    return {"message": "Bank account not found"}
+@app.get("/payments/{payment_id}")
+def get_payment(payment_id: int):
+    for payment in payments:
+        if payment.id == payment_id:
+            return payment
+    return {"message": "Payment not found"}
 
-@app.delete("/bank_accounts/{account_id}")
-def delete_bank_account(account_id: int):
-    global bank_accounts
-    bank_accounts = [account for account in bank_accounts if account.id != account_id]
-    return {"message": "Bank account deleted successfully"}
+@app.delete("/payments/{payment_id}")
+def delete_payment(payment_id: int):
+    global payments
+    payments = [payment for payment in payments if payment.id != payment_id]
+    return {"message": "Payment deleted successfully"}
 
