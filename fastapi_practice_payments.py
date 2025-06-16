@@ -63,3 +63,4 @@ def delete_payment(payment_id: int):
     delete_payment_from_file(payment_id)
     return {"message": "Payment deleted successfully"}
 
+print(payments)
