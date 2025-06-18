@@ -8,7 +8,7 @@ class BankAccount(BaseModel):
     id: int
     type: str
     person_name: str
-    adress: str
+    address: str
 
 # type hint for a list of bank accounts
 bank_accounts: list[BankAccount] = []
